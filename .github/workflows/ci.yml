@@ -1,0 +1,21 @@
+name: CI
+on:
+  pull_request:
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "lint ok"
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Simulate a test run
+        run: sleep 40
+      - name: Fail on the failing branch
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          if [ "$HEAD_REF" = "e2e/failing" ]; then
+            echo "Intentional failure for the codans Rerun failed E2E"
+            exit 1
+          fi
